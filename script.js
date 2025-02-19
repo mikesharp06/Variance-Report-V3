@@ -68,6 +68,9 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
                 });
             });
 
+            // Get the value of cell A1 to use as the filename
+            const fileName = worksheet.getCell('A1').value ? `${worksheet.getCell('A1').value} - Modified` : 'modified';
+
             // Output the modified content to the console
             const buffer = await workbook.xlsx.writeBuffer();
             const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -75,7 +78,7 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
             const downloadLink = document.getElementById('downloadLink');
             const downloadButton = document.getElementById('downloadButton');
             downloadButton.href = url;
-            downloadButton.download = 'modified.xlsx';
+            downloadButton.download = `${fileName}.xlsx`;
             downloadLink.style.display = 'block';
         };
         reader.readAsArrayBuffer(file);
