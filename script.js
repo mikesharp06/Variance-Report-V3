@@ -24,9 +24,10 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
             // Set page width to fit one page wide
             worksheet.pageSetup.fitToPage = true;
             worksheet.pageSetup.fitToWidth = 1;
+            worksheet.pageSetup.fitToHeight = 0;
 
             // Set default to landscape
-            // worksheet.pageSetup.orientation = 'landscape';
+            worksheet.pageSetup.orientation = 'landscape';
 
             // Delete rows 4, 5, and 6
             worksheet.spliceRows(4, 3);
