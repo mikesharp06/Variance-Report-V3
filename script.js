@@ -8,6 +8,24 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
             await workbook.xlsx.load(data.buffer);
             const worksheet = workbook.getWorksheet(1);
 
+            // Set print titles to first 3 rows
+            worksheet.pageSetup.printTitlesRow = '1:7';
+
+            // Set narrow margins
+            worksheet.pageSetup.margins = {
+                left: 0.25,
+                right: 0.25,
+                top: 0.75,
+                bottom: 0.75,
+                header: 0.3,
+                footer: 0.3
+            };
+
+            // Set page width to fit one page wide
+            worksheet.pageSetup.fitToPage = true;
+            worksheet.pageSetup.fitToWidth = 1;
+            //worksheet.pageSetup.fitToHeight = 0;
+
             // Delete rows 4, 5, and 6
             worksheet.spliceRows(4, 3);
 
@@ -51,11 +69,24 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
             // Set the width of Column J
             worksheet.getColumn('J').width = 40;
 
+
+            // Center align all cells in rows 9 and below
             worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
                 if (rowNumber >= 9) {
                     row.eachCell((cell) => {
                         cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
                     });
+                }
+            });
+
+            // Left align all cells in Column A for rows 4 and below
+            worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
+                if (rowNumber >= 4) {
+                    const cell = row.getCell('A');
+                    cell.alignment = { horizontal: 'left', vertical: 'middle', wrapText: true };
+                    if (typeof cell.value === 'string') {
+                        cell.value = cell.value.trim();
+                    }
                 }
             });
 
@@ -69,7 +100,14 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
             });
 
             // Get the value of cell A1 to use as the filename
-            const fileName = worksheet.getCell('A1').value ? `${worksheet.getCell('A1').value} - Modified` : 'modified';
+            // const fileName = worksheet.getCell('A1').value ? `${worksheet.getCell('A1').value} - Modified` : 'modified';
+                        // Get the value of cell A1 and A3 to use as the filename
+            let fileNameA1 = worksheet.getCell('A1').value || '';
+            let fileNameA3 = worksheet.getCell('A3').value || '';
+            if (typeof fileNameA3 === 'string' && fileNameA3.startsWith('As of ')) {
+                fileNameA3 = fileNameA3.substring(6).trim();
+            }
+            const fileName = `${fileNameA1} - ${fileNameA3}`.trim() || 'modified';
 
             // Output the modified content to the console
             const buffer = await workbook.xlsx.writeBuffer();
