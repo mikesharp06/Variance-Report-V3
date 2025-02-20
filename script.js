@@ -27,7 +27,7 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
             worksheet.pageSetup.fitToHeight = 0;
 
             // Set default to landscape
-            worksheet.pageSetup.orientation = 'landscape';
+            // worksheet.pageSetup.orientation = 'landscape';
 
             // Delete rows 4, 5, and 6
             worksheet.spliceRows(4, 3);
@@ -91,9 +91,9 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
                 if (rowNumber >= 4) {
                     const cell = row.getCell('A');
                     cell.alignment = { horizontal: 'left', vertical: 'middle', wrapText: true };
-                    if (typeof cell.value === 'string') {
-                        cell.value = cell.value.trim();
-                    }
+                    //if (typeof cell.value === 'string') {
+                        //cell.value = cell.value.trim();
+                    //}
                 }
             });
 
