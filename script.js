@@ -49,6 +49,10 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
             worksheet.mergeCells('A2:I2');
             worksheet.mergeCells('A3:I3');
 
+            // Merge cells in Rows 5, from B to E, and from F to I
+            worksheet.mergeCells('B5:E5');
+            worksheet.mergeCells('F5:I5');
+
             // Center align the merged cells in Rows 1, 2, and 3
             worksheet.getCell('A1').alignment = { horizontal: 'center', vertical: 'middle' };
             worksheet.getCell('A2').alignment = { horizontal: 'center', vertical: 'middle' };
@@ -75,7 +79,7 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
 
             // Center align all cells in rows 9 and below
             worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
-                if (rowNumber >= 9) {
+                if (rowNumber >= 7) {
                     row.eachCell((cell) => {
                         cell.alignment = { horizontal: 'center', vertical: 'middle', wrapText: true };
                     });
