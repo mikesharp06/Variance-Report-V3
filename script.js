@@ -26,9 +26,6 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
             worksheet.pageSetup.fitToWidth = 1;
             worksheet.pageSetup.fitToHeight = 0;
 
-            // Set default to landscape
-            // worksheet.pageSetup.orientation = 'landscape';
-
             // Delete rows 4, 5, and 6
             worksheet.spliceRows(4, 3);
 
@@ -91,9 +88,6 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
                 if (rowNumber >= 4) {
                     const cell = row.getCell('A');
                     cell.alignment = { horizontal: 'left', vertical: 'middle', wrapText: true };
-                    //if (typeof cell.value === 'string') {
-                        //cell.value = cell.value.trim();
-                    //}
                 }
             });
 
@@ -106,9 +100,7 @@ document.getElementById('fileUpload').addEventListener('change', function(event)
                 });
             });
 
-            // Get the value of cell A1 to use as the filename
-            // const fileName = worksheet.getCell('A1').value ? `${worksheet.getCell('A1').value} - Modified` : 'modified';
-                        // Get the value of cell A1 and A3 to use as the filename
+            // Get the value of cell A1 and A3 to use as the filename
             let fileNameA1 = worksheet.getCell('A1').value || '';
             let fileNameA3 = worksheet.getCell('A3').value || '';
             if (typeof fileNameA3 === 'string' && fileNameA3.startsWith('As of ')) {
